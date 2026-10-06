@@ -531,3 +531,12 @@ body.pwa-starting .shell,body.pwa-starting .topbar,body.pwa-starting footer{poin
 .topbar{position:relative}
 .dev-banner{position:absolute;right:18px;top:10px;z-index:20;background:#fff3a8;color:#5b4800;border:2px solid #e3b600;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:900;letter-spacing:.03em;box-shadow:0 2px 8px #0002}
 @media(max-width:760px){.topbar{padding-top:46px}.dev-banner{left:50%;right:auto;transform:translateX(-50%);top:8px;white-space:nowrap}}
+  
+/* Riders cafe status */
+.rider-cafe-status{display:inline-block;margin-top:6px;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:900;background:#eef3f7;color:#334}
+.rider-cafe-status.open{background:#dcf7df;color:#166327}
+.rider-cafe-status.before{background:#fff4c7;color:#7b5b00}
+.rider-cafe-status.closed{background:#ffe0e0;color:#8c2020}
+.rider-cafe-status.holiday{background:#e7e7e7;color:#444}
+.rider-cafe-status.temporary_closed,.rider-cafe-status.long_closed{background:#efe2ff;color:#60318f}
+.rider-cafe-status.permanently_closed{background:#2f2f2f;color:#fff}
