@@ -1,6 +1,6 @@
 'use strict';
 const D=window.APP_DATA||{roads:[],landmarks:[],meta:{}};
-const APP_VERSION='PWA 1.5.16-dev8';
+const APP_VERSION='PWA 1.5.16-dev9';
 const JR=(window.JR_STATIONS||[]).map(x=>({...x,prefecture:'',municipality:''}));
 const RELAY=window.RELAY_STOPS||[];
 const RIDERS_CAFES=window.RIDERS_CAFES||[];
@@ -761,7 +761,7 @@ function runDestination(){const o=requireOrigin('dest');if(!o)return;const targe
 function runRelay(){const o=requireOrigin('relay');if(!o)return;const t=numericValue('relayDist','relayDistFree',1,500),dir=$('relayDir').value;const options={北:[337.5,0,22.5],東:[67.5,90,112.5],南:[157.5,180,202.5],西:[247.5,270,292.5]};const targetBearing=rand(options[dir]||options.北);let pool=RELAY.map(x=>({...x,d:dist(o.lat,o.lng,x.lat,x.lng),br:bearing(o.lat,o.lng,x.lat,x.lng)})).filter(x=>Math.abs(x.d-t)<=Math.max(3,t*.75)&&Math.abs(((x.br-targetBearing+540)%360)-180)<=32);if(!pool.length)pool=RELAY.map(x=>({...x,d:dist(o.lat,o.lng,x.lat,x.lng),br:bearing(o.lat,o.lng,x.lat,x.lng)})).sort((a,b)=>(Math.abs(a.d-t)+Math.abs(((a.br-targetBearing+540)%360)-180)/8)-(Math.abs(b.d-t)+Math.abs(((b.br-targetBearing+540)%360)-180)/8)).slice(0,10);if(!pool.length)return alert('候補がありません。');const x=rand(pool);relayTrail.push(x);$('relayResult').classList.remove('empty');$('relayResult').innerHTML=`<h3>${esc(x.name)}</h3><div class="meta">距離：約${x.d.toFixed(1)}km / 選択：${esc(dir)} → ガチャ：${dirText16(targetBearing)} / 実際：${dirText16(x.br)}</div><div class="actions">${routeButtons(o,[x])}<button class="soft" onclick='saveFavorite(${JSON.stringify({mode:'乗り継ぎガチャ',title:x.name,startLabel:o.label,origin:o,points:[{name:x.name,lat:x.lat,lng:x.lng,latRaw:x.latRaw||String(x.lat),lngRaw:x.lngRaw||String(x.lng),kind:'目的地'}],routeSummary:''}).replaceAll("'","&#39;")})'>お気に入りに保存</button></div>`;setOrigin('relay',x.lat,x.lng,x.name);$('relayHistory').innerHTML=relayTrail.length?`<div class="panel"><b>今回の乗り継ぎ</b><div class="meta">${relayTrail.map((x,i)=>`${i+1}. ${esc(x.name)}`).join(' → ')}</div></div>`:''}
 const RIDE_STYLE_KEY='michinotochu_ride_style_v1';
 const RIDE_DISTANCE_LABELS={'10':'🛵 ちょい乗り','20':'🌿 ひとっ走り','40':'🏍️ ぶらっと行こう','70':'🌤️ いい感じに走る','100':'🔥 今日は走るぞ','300':'🚀 遠くまで行こう'};
-const RIDE_MOOD_LABELS={random:'🎲 おまかせ',road:'🏠 道の駅へ',classic:'⭐ いいとこ行きたい',detour:'🌿 ちょっと寄りたい',scenery:'🌊 景色が見たい',food:'☕ なんか食べたい',heal:'♨️ 癒されたい'};
+const RIDE_MOOD_LABELS={random:'🎲 おまかせ',road:'🏠 道の駅へ',classic:'⭐ いいとこ行きたい',detour:'🌿 ちょっと寄りたい',scenery:'🌊 景色が見たい',food:'☕ なんか食べたい',heal:'♨️ 癒されたい',riders_cafe:'🏍️ ライダーズカフェ'};
 
 const RIDE_FOOD_GENRES={
   random:{label:'🎲 おまかせ'},
@@ -845,6 +845,7 @@ function rideMoodMatch(x,mood){
   if(mood==='road')return x.kind==='道の駅';
   if(mood==='classic')return x.level==='A';
   if(mood==='detour')return x.level==='B';
+  if(mood==='riders_cafe')return x.kind==='ライダーズカフェ';
   const t=rideStyleText(x),tags=uiCategoryTags(x);
   if(mood==='scenery')return ['view','sea','nature','park','construction','road_drive'].some(v=>tags.has(v))||/海|海岸|岬|湖|池|沼|展望|眺望|景色|高原|山|峠|滝|渓谷|峡谷|棚田|夕日|夜景|橋/.test(t);
   if(mood==='food')return /カフェ|喫茶|珈琲|コーヒー|ハンバーガー|バーガー|甘味|スイーツ|団子|饅頭|まんじゅう|ソフト|ジェラート|アイス|菓子|ケーキ|プリン|食堂|レストラン|ラーメン|うどん|そば|丼|定食|グルメ|食事/.test(t);
@@ -861,7 +862,8 @@ function rideMapQuery(mood,subgenre=null){
     detour:['穴場スポット','小さな観光スポット','展望スポット'],
     scenery:['展望台','海岸','岬','湖','滝'],
     food:['カフェ','ハンバーガー','スイーツ','ごはん'],
-    heal:['癒しスポット','神社','温泉','森林浴']
+    heal:['癒しスポット','神社','温泉','森林浴'],
+    riders_cafe:['ライダーズカフェ']
   }[mood]||['観光スポット'];
   return rand(pool)
 }
@@ -912,6 +914,7 @@ function runRideStyle(preserveArea=false){
   let pool=[];
   pool.push(...D.roads.filter(x=>active(x.gacha)).map(x=>({...x,kind:'道の駅'})));
   pool.push(...D.landmarks.filter(x=>active(x.gacha)).map(x=>({...x,kind:pointKind(x)})));
+  pool.push(...RIDERS_CAFES.filter(x=>active(x.gacha)&&(x.publish!==false||x.testOnly)).map(x=>({...x,kind:'ライダーズカフェ'})));
   pool=pool.map(x=>({...x,d:dist(o.lat,o.lng,+x.lat,+x.lng),br:bearing(o.lat,o.lng,+x.lat,+x.lng)}))
     .filter(x=>x.d>=band.min&&x.d<=band.max&&rideDirectionDelta(x.br,targetBearing)<=RIDE_DIRECTION_HALF_WIDTH&&rideMoodMatch(x,mood));
 
