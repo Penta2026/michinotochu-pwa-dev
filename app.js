@@ -1,6 +1,6 @@
 'use strict';
 const D=window.APP_DATA||{roads:[],landmarks:[],meta:{}};
-const APP_VERSION='PWA 1.5.16-dev3';
+const APP_VERSION='PWA 1.5.16-dev4';
 const JR=(window.JR_STATIONS||[]).map(x=>({...x,prefecture:'',municipality:''}));
 const RELAY=window.RELAY_STOPS||[];
 const RIDERS_CAFES=window.RIDERS_CAFES||[];
@@ -269,7 +269,8 @@ const DETOUR_GENRES=[
   ['shrine','⛩️ 神社・寺'],
   ['park','🌳 公園'],
   ['unusual','👀 ちょっと変なもの'],
-  ['season','🌸 季節を感じる']
+  ['season','🌸 季節を感じる'],
+  ['riders_cafe','🏍️ ライダーズカフェ']
 ];
 const detourContexts=new Map();
 let detourContextSeq=0;
@@ -338,6 +339,7 @@ function detourIsMajorDestination(x){
 function detourGenreMatch(x,genre){
   if(genre==='random')return true;
   if(genre==='road')return x.kind==='道の駅';
+  if(genre==='riders_cafe')return x.kind==='ライダーズカフェ';
   if(genre==='season')return seasonMatch(x,currentSeason());
   const t=detourText(x);
   const fc=String(x.featureCategory||'');
@@ -357,6 +359,7 @@ function detourGenreMatch(x,genre){
 function detourStayMinutes(x,genre){
   if(genre==='onsen'||detourGenreMatch(x,'onsen'))return 70;
   if(genre==='food'||detourGenreMatch(x,'food'))return 45;
+  if(genre==='riders_cafe'||x.kind==='ライダーズカフェ')return 35;
   if(genre==='cafe'||detourGenreMatch(x,'cafe'))return 35;
   if(genre==='park'||detourGenreMatch(x,'park'))return 35;
   if(genre==='season')return 40;
@@ -370,12 +373,14 @@ function detourStayMinutes(x,genre){
 function detourAllSpots(){
   return [
     ...D.roads.filter(x=>active(x.gacha)).map(x=>({...x,kind:'道の駅'})),
-    ...D.landmarks.filter(x=>active(x.gacha)).map(x=>({...x,kind:pointKind(x)}))
+    ...D.landmarks.filter(x=>active(x.gacha)).map(x=>({...x,kind:pointKind(x)})),
+    ...RIDERS_CAFES.filter(x=>active(x.gacha)&&(x.publish!==false||x.testOnly)).map(x=>({...x,kind:'ライダーズカフェ'}))
   ].filter(x=>Number.isFinite(+x.lat)&&Number.isFinite(+x.lng));
 }
 function detourExperienceTitle(x,genre){
   if(genre==='view'||detourGenreMatch(x,'view'))return'🌄 ちょっと景色を見る';
   if(genre==='sweets'||detourGenreMatch(x,'sweets'))return'🍡 甘いものをひとつ';
+  if(genre==='riders_cafe'||x.kind==='ライダーズカフェ')return'🏍️ ライダーズカフェへ寄り道';
   if(genre==='cafe'||detourGenreMatch(x,'cafe'))return'☕ ちょっとひと息';
   if(genre==='food'||detourGenreMatch(x,'food'))return'🍜 途中で腹ごしらえ';
   if(genre==='onsen'||detourGenreMatch(x,'onsen'))return'♨️ ひとっ風呂寄ってく？';
@@ -430,7 +435,8 @@ function detourMapSearchWord(genre){
     shrine:'神社 寺',
     park:'公園',
     unusual:'珍スポット',
-    season:'季節 観光スポット'
+    season:'季節 観光スポット',
+    riders_cafe:'ライダーズカフェ'
   }[genre]||'観光スポット';
 }
 function detourFoodSearchUrl(route,genre,point=null,radius=10){
@@ -556,6 +562,32 @@ function detourInsertedPointsByAnchor(route,pick,anchor){
   pts.splice(insertIndex,0,pick);
   return pts;
 }
+function openDetourRegisteredDetail(index,genre,anchor){
+  const list=window._detourRegisteredPool||[];
+  const x=list[+index];if(!x||!detourRoute.origin||!detourRoute.points.length)return;
+  const inserted=detourInsertedPointsByAnchor(detourRoute,x,anchor);
+  const mins=detourStayMinutes(x,genre);
+  const details=[];
+  if(x.kind==='ライダーズカフェ'){
+    const sig=ridersCafeSignal(x);
+    details.push('<div class="detail-block"><b>営業状態</b><div>'+esc(sig.label)+'</div></div>');
+    if(x.foodTypes?.length)details.push('<div class="detail-block"><b>🍽 食事</b><div>'+esc(x.foodTypes.join(' / '))+'</div></div>');
+    if(x.regularHolidays?.length)details.push('<div class="detail-block"><b>休業日</b><div>'+esc(x.regularHolidays.join('・'))+'</div></div>');
+    if(x.address)details.push('<div class="detail-block"><b>📍 住所</b><div>'+esc(x.address)+'</div></div>');
+    if(x.permission?.label)details.push('<div class="detail-block"><b>掲載許諾</b><div>'+esc(x.permission.label)+(x.testOnly?'（DEV仮登録）':'')+'</div></div>');
+  }else{
+    if(x.summary)details.push('<p>'+esc(x.summary)+'</p>');
+    if(x.access)details.push('<div class="detail-block"><b>🚗 アクセス</b><div>'+esc(x.access)+'</div></div>');
+  }
+  const d=Number.isFinite(x._detourDistance)?x._detourDistance:null;
+  modal('<h2 class="detail-title">'+esc(x.name)+'</h2>'+
+    '<div class="meta detail-meta">'+esc(spotMeta(x,x.kind,d))+'</div>'+
+    details.join('')+
+    '<div class="detour-stats"><span>'+esc(detourAnchorLabel(anchor))+'から約 '+(d===null?'--':d.toFixed(1))+'km</span><span>滞在目安 約'+mins+'分</span></div>'+
+    '<div class="route-buttons detail-route">'+mapBtn(x,'Googleマップで確認')+
+    '<a class="mapbtn bike250" href="'+googleRoute(detourRoute.origin,inserted,'250')+'" target="_blank" rel="noopener">🏍️ この登録候補に寄って走る</a></div>');
+}
+
 function runDetourGacha(){
   if(!detourRoute.origin||!detourRoute.points.length)return alert('出発地と最終目的地を設定するか、お気に入りのルートを選んでください。');
   const genre=$('detourGenre')?.value||'random';
@@ -583,26 +615,19 @@ function runDetourGacha(){
   const host=$('detourResult');
   if(!host)return;
 
-  pool.sort((a,b)=>(a._detourDistance+Math.random()*radius*.35)-(b._detourDistance+Math.random()*radius*.35));
-  const pick=pool.length?rand(pool.slice(0,Math.min(25,pool.length))):null;
+  pool.sort((a,b)=>a._detourDistance-b._detourDistance||a.name.localeCompare(b.name,'ja'));
+  window._detourRegisteredPool=pool;
+  const pick=pool[0]||null;
   const destination=route.points[route.points.length-1];
   const mapUrl=detourFoodSearchUrl(route,genre,base,radius);
   const mapLabel=genre==='random'?'Google Mapsでこの辺を探す':'Google Mapsで'+detourMapSearchWord(genre)+'を探す';
 
   let registeredHtml='';
-  if(pick){
-    const meta=spotMeta(pick,pick.kind,null);
-    const inserted=detourInsertedPointsByAnchor(route,pick,anchor);
-    const mins=detourStayMinutes(pick,genre);
+  if(pool.length){
     registeredHtml=`<div class="detour-registered">
-      <h4>📚 アプリ登録候補</h4>
-      <div class="detour-picked-head">${iconBadge(pick,pick.kind)}<div><h3>${esc(pick.name)}</h3><div class="meta">${esc(meta)}</div></div></div>
-      ${pick.summary?`<p>${esc(pick.summary)}</p>`:''}
-      <div class="detour-stats">
-        <span>${esc(detourAnchorLabel(anchor))}から約 ${pick._detourDistance.toFixed(1)}km</span>
-        <span>滞在目安 約${mins}分</span>
-      </div>
-      <a class="mapbtn" href="${googleRoute(route.origin,inserted,'250')}" target="_blank" rel="noopener">この登録候補に寄って走る</a>
+      <h4>📚 アプリ登録候補 <small>${pool.length}件</small></h4>
+      <div class="detour-candidate-list">${pool.map((x,i)=>`<button type="button" class="detour-candidate-row" onclick="openDetourRegisteredDetail(${i},'${escJs(genre)}','${escJs(anchor)}')">${iconBadge(x,x.kind)}<span>${esc(x.name)}</span></button>`).join('')}</div>
+      <p class="meta">候補をタップすると詳細と「この登録候補に寄って走る」を表示します。</p>
     </div>`;
   }else{
     registeredHtml=`<div class="detour-registered detour-registered-empty">
