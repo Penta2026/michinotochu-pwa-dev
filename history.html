@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>更新履歴｜道の途中。</title>
+<meta name="theme-color" content="#f7fbff">
+<link rel="stylesheet" href="style.css?v=1.5.15">
+<style>
+.history-page{max-width:820px;margin:0 auto;padding:24px 16px 40px}
+.history-card{background:#fff;border:1px solid #d9e6ee;border-radius:24px;padding:24px;box-shadow:0 8px 26px #173a4f1a}
+.history-card h1{margin-top:0;color:#203f59;font-size:clamp(24px,5vw,34px)}
+.history-intro{line-height:1.8;color:#526a79}
+.history-entry{padding:18px 0;border-bottom:1px solid #e3ebf0}
+.history-entry:last-child{border-bottom:0}
+.history-head{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.history-ver{font-size:20px;font-weight:800;color:#315671}
+.history-date{font-size:12px;color:#7a8a95}
+.history-entry ul{margin:10px 0 0;padding-left:1.4em;line-height:1.8}
+.history-links{text-align:center;margin-top:24px;line-height:2}
+.history-back{display:block;text-align:center;margin-top:16px;color:#315671;text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+<main class="history-page">
+<section class="history-card">
+<h1>更新履歴</h1>
+<p class="history-intro">「道の途中。」の主な更新内容です。細かな内部調整やデータ修正は省略し、利用者に関係する変更を中心に掲載しています。</p>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.5.15</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「景色が見たい」に「道・峠・スカイライン」を追加し、峠・旧道・スカイライン・ドライブウェイなど道そのものを楽しむ候補を検索できるよう追加</li>
+    <li>「なんか食べたい」に「パン・ベーカリー」を追加し、パン屋・ベーカリー・ブーランジェリーなどを検索できるよう追加</li>
+    <li>Google Maps検索とアプリ登録候補の両方で新しい小ジャンルを反映</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.5.14</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「今日の走り方」に大カテゴリ内の小ジャンル切替を本格実装</li>
+    <li>「景色が見たい」を海・海岸／山・高原／湖・池／滝・渓谷／展望・絶景／夜景に細分化</li>
+    <li>「いいとこ行きたい」を絶景・景勝地／歴史・史跡／建築・橋・ダム／珍スポット／文化・資料館に細分化</li>
+    <li>「ちょっと寄りたい」を景色／神社・寺／公園・花／珍スポット／橋・建設物／体験・文化に細分化</li>
+    <li>食べ物・癒しも同じ小ジャンル切替UIへ統一し、切替時は距離と方向を保ったまま探す内容だけ変更するよう改善</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.5.13</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「今日の走り方」の「別の候補を見る」をGoogle Mapsボタンの直前へ移動</li>
+    <li>ボタン名を「探すものジャンルを変える」に変更し、現在検索中の小ジャンルをボタン内に表示</li>
+    <li>食べ物ではカフェ・ハンバーガー・スイーツ・ごはん、癒しではヒーリングスポット・神社寺・温泉・自然など、大ジャンル内の探す内容を分かりやすく切り替えられるよう整理</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.5.12</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「今日の走り方」の大ジャンルは最初の選択のまま固定し、結果画面では食べ物の小ジャンルだけ変更する仕様へ修正</li>
+    <li>「なんか食べたい」を、カフェ・喫茶／ハンバーガー／スイーツ・甘味／ごはん／おまかせに細分化</li>
+    <li>Google Maps検索とアプリ登録候補の両方を、選択した食べ物ジャンルに合わせて絞り込むよう変更</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.5.11</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「今日の走り方」の結果画面で、Google Mapsボタンの上に「雰囲気ジャンルを変える」を追加</li>
+    <li>変更ボタン内に現在選択中の雰囲気を表示し、何を基準に検索しているか分かりやすく改善</li>
+    <li>結果画面から距離・方角を変えずに雰囲気だけ選び直し、その場で再検索できるよう追加</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.5.10</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>スマホ表示のホーム10ボタンを1列表示へ変更し、押しやすさと誤タップ防止を改善</li>
+    <li>PC・広い画面では従来どおり2列表示を維持</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.5.9</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>ホームタイトル下に「使い方」ボタンを追加</li>
+    <li>全11メニューの特徴と基本操作を、メニューごとの開閉式ガイドとして掲載</li>
+    <li>スタート地点の設定、Google Maps確認、車両別ルート、訪問済み★、メモなど共通操作の説明を追加</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.5.8</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>左側メニューに「寄り道しよう」「今日の走り方」「登録スポットを見る」を追加</li>
+    <li>ホーム画面の主要機能と左メニューの導線を揃え、各画面へ直接移動しやすく調整</li>
+    <li>左メニューの並びをホーム機能の流れに合わせて整理</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.5.7</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>PWA更新後にブラウザタブの読み込み表示が長時間続くことがある問題を修正</li>
+    <li>Service Worker有効化中の強制client.navigateを廃止し、有効化処理と画面再読み込みを分離</li>
+    <li>更新後の再読み込みはPWA側の1回だけに統一し、Service Worker切替待ちも短縮</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.5.6</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>旅の履歴のメモ画面に「この旅の記録を削除」を追加</li>
+    <li>登録地点では★・訪問回数・訪問日時・メモだけを削除し、登録スポット本体は残す仕様に対応</li>
+    <li>未登録地点では座標・訪問履歴・メモを含む履歴そのものを削除できるよう追加</li>
+    <li>メモだけを消す操作と、旅の記録全体を消す操作を分離し、それぞれ確認後に実行するよう調整</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.5.5</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「オススメ追加」を開いた時点で現在地を自動取得し、座標欄へ「36.123456,136.123456」形式で自動入力するよう変更</li>
+    <li>現在地ボタンは「現在地を再取得」として残し、必要な場合だけ座標を取り直せるよう調整</li>
+    <li>旅の履歴からオススメ追加を開いた場合は、履歴に保存された地点座標を優先し、現在地で上書きしないよう保護</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.5.4</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「オススメ追加」は座標入力を必須化し、空のまま送信できないよう修正</li>
+    <li>「現在地を入れる」ボタンを追加し、緯度経度を「36.123456,136.123456」形式で自動入力</li>
+    <li>旅の履歴からの送信は従来どおり保存座標を自動入力し、通常のオススメ追加でも座標を確実にメールへ含めるよう改善</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.5.3</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>オススメ追加の座標を「36.123456,136.123456」のような1行形式に変更</li>
+    <li>旅の履歴から送信する場合、座標欄へ緯度・経度を自動入力</li>
+    <li>送信メールでは「座標」独立項目に加え、本文先頭にも同じ座標を入れて確実に確認できるよう修正</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.5.2</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>オススメ追加フォームに緯度・経度の入力欄を追加</li>
+    <li>旅の履歴の未登録地点から送る場合、保存座標を緯度・経度へ自動入力し、送信内容にも独立項目として含めるよう修正</li>
+    <li>Google Mapsリンクとメモ内の座標表記も従来どおり併記し、地点確認をしやすく改善</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.5.1</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>PWA更新時に新しいService Workerの有効化を待ってから再読み込みするよう修正</li>
+    <li>旧キャッシュを掴んだまま1.4.12等から更新できない場合がある問題を改善</li>
+    <li>Service Worker有効化時に開いているPWA画面も最新版へ再読込する処理を追加</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.5.0</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「旅の履歴」を正式実装。現在地を取得し、300m以内の登録地点を確認して訪問記録を残せるよう追加</li>
+    <li>登録地点に訪問済み★とメモ機能を追加。★のON/OFFは確認後に反映し、メモは閲覧・追記・全削除に対応</li>
+    <li>近くに登録地点がない場合は座標と必須メモを端末内に保存し、未登録地点として履歴化</li>
+    <li>未登録地点から「登録地点として送る」を選ぶと、オススメ追加フォームへ座標・メモを引き継げるよう追加</li>
+    <li>「気になる場所」「登録スポットを見る」の地点カードに★ボタンとメモボタンを追加</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.4.12</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>カフェ系の検索に「ハンバーガー／バーガー」を追加</li>
+    <li>「ひと息」と「寄り道しよう」のカフェ検索で、周辺のハンバーガー店もGoogle Maps候補に含めるよう変更</li>
+    <li>「今日の走り方」の食べ物系でも、登録候補・Google Maps検索の両方でハンバーガー店を拾えるよう調整</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.4.11</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「今日の走り方」の検索結果に「今回探す場所」カードを追加</li>
+    <li>スタート地点からの検索方向・目標距離・距離帯を大きく表示し、どの辺を検索するか分かりやすく改善</li>
+    <li>探すテーマとGoogle Maps検索ワードを明示し、地図検索の意図を確認してから開けるよう調整</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.4.10</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「癒されたい」の4テーマを、一巡するまで同じ系統を繰り返さないシャッフル方式に変更</li>
+    <li>選ばれた癒しテーマに該当する登録候補が無い場合、神社・寺など別テーマへ自動フォールバックしないよう修正</li>
+    <li>登録候補が無い場合は、そのテーマのGoogle Maps検索をそのまま案内するよう調整</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.4.9</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「今日の走り方」の「癒されたい」を、ヒーリングスポット・神社/寺・温泉・静かな自然の4系統から探す方式へ変更</li>
+    <li>癒し候補を温泉優先に固定せず、選ばれた癒しテーマに合わせてアプリ登録候補とGoogle Maps検索を切り替えるよう調整</li>
+    <li>Google Mapsの癒し検索から「公園」固定検索を外し、森林浴・庭園・滝・湖・高原なども候補に追加</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.4.8</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「今日の走り方」のGoogle Maps検索を、スタート地点周辺ではなく目標距離・方向の地点周辺へ固定</li>
+    <li>300km指定でも広域表示しすぎないよう地図ズームを検索地点周辺向けに調整</li>
+    <li>方向指定を±45°から±30°へ絞り、北・東・南・西の指向性を強化</li>
+    <li>「癒されたい」は登録温泉を第一候補とし、Google Maps検索も温泉系を優先する単一テーマ検索へ変更</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.4.7</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>PWAアイコンを調整済みの海沿いツーリング画像へ差し替え</li>
+    <li>192px / 512pxの正式2アイコンを同一デザインで再生成し、manifestとservice workerを1.4.7へ更新</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.4.6</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>PWAインストール失敗の原因となっていた削除済み旧アイコン参照をservice workerから除去</li>
+    <li>service workerのキャッシュ対象を正式なicon-192.png / icon-512.pngへ統一</li>
+    <li>一部の静的ファイル取得失敗でservice worker全体のインストールが止まらないようキャッシュ処理を強化</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.4.5</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>ユーザー指定の192px・512pxアイコンを正式採用し、canonicalなicon-192.png / icon-512.pngへ統一</li>
+    <li>v143・v144・旧Apple Touch用・SVGなど余計なアイコンデータを削除</li>
+    <li>manifest / Apple Touch Icon / service worker の参照先を正式2アイコンだけに統一</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.4.4</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>正式アイコンをユーザー指定の海沿いツーリング画像へ差し替え</li>
+    <li>旧1.4.3アイコン参照を外し、新ファイル名でPWAアイコンキャッシュを更新</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.4.3</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>PWAアイコンを「道の途中。」表記の新デザインへ変更し、旧アイコンキャッシュを避けるため新ファイル名へ切替</li>
+    <li>manifestのアイコン参照とApple Touch Iconを更新し、PWAインストール周りの整合を改善</li>
+    <li>ホーム10ボタンの縦幅とボタン間隔を拡大し、スマホでの押し間違いを減らすよう調整</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.4.2</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「今日の走り方」に北・東・南・西・おまかせの方向指定を追加</li>
+    <li>方向は基準方角±45°の扇形で候補を抽出し、おまかせでは毎回ランダムな方角を選択</li>
+    <li>距離指定を「以内」から目標距離帯へ変更し、300kmは285〜315kmなど距離前後で抽出</li>
+    <li>スタート地点の現在地・駅・Googleマップ・コピーリンク反映を共通UIとして利用</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.4.1</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「今日の走り方」にスタート地点パネルをHTML側にも常設し、旧キャッシュとの混在時でも表示されるよう改善</li>
+    <li>現在地・駅・Googleマップ・コピーしたリンク反映の共通スタート地点操作を確実に表示</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.4.0</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「今日の走り方」を正式実装</li>
+    <li>6段階の走行距離と7種類の気分から、その日の行き先候補を提案</li>
+    <li>登録スポット候補とGoogle Maps検索を組み合わせ、未登録の場所も探せるように対応</li>
+    <li>選んだ距離・気分を端末内に保持し、次回も同じ条件から使えるように改善</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.3.11</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「行先ガチャ」のホームボタンからサイコロ表現を削除し、地図＋目的地ピンのデザインへ変更</li>
+    <li>「寄り道しよう」のホームボタンを道標＋コーヒー＋景色のデザインへ変更</li>
+    <li>ホームボタン画像をCSS直書きではなく画像ファイル参照へ整理</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.3.9</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「寄り道ガチャ」を「寄り道しよう」に名称変更</li>
+    <li>寄り道ホームボタンからサイコロ表現を削除し、道標＋道草イメージへ変更</li>
+    <li>行先ガチャのサイコロイラストを自然な出目のデザインへ更新</li>
+    <li>スマホ縦画面の2列×5段ホームレイアウトを維持したまま画像差し替え</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.3.8</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>寄り道ガチャの全ジャンルを「Google Maps検索＋アプリ登録候補」のハイブリッド表示に変更</li>
+    <li>登録候補が0件でもGoogle Maps検索を必ず利用できるよう改善</li>
+    <li>登録候補がある場合はGoogle Maps検索の下にアプリ内候補を表示</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.3.7</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>カフェ・甘味・ごはんのGoogle Maps検索を、選択した「スタート地点／目的地」の座標中心に固定</li>
+    <li>指定kmに応じて地図ズームを調整し、基準地点と検索範囲のズレを改善</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.3.6</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>Googleマップ選択UIの文言・ヘルプ・ボタン配置を全メニューで統一</li>
+    <li>スタート地点は「Googleマップでスタート地点を選ぶ」、目的地は「Googleマップで目的地を選ぶ」に整理</li>
+    <li>ヘルプ内の案内文を実際の「コピーしたリンクを反映」ボタン名に統一</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.3.5</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>Googleマップ連携の「コピーしたリンクを反映」ボタンを全メニューで横長表示に統一</li>
+    <li>寄り道ガチャの目的地設定もスタート地点と同じ操作感に整理</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.3.4</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>寄り道ガチャの車両区分を廃止</li>
+    <li>「スタート地点」「目的地」のどちらを基準に探すか選べるよう変更</li>
+    <li>基準地点から3 / 5 / 10 / 20 / 30km以内、または自由入力距離で道草候補を検索</li>
+    <li>お気に入りルートではスタート基準なら冒頭、目的地基準なら最終目的地直前へ寄り道を挿入</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.3.3</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>寄り道ガチャの「目的地設定」をスタート地点と同じ操作レイアウトに統一</li>
+    <li>Googleマップで目的地を選ぶボタン横に使い方のⓘを追加</li>
+    <li>「お気に入りのルートから選ぶ」「コピーしたリンクを反映」の配置を整理</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.3.2</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>Google MapsのCopy Link（maps.app.goo.gl）をCloudflare Workers経由で目的地へ反映できるよう改善</li>
+    <li>目的地名・住所入力とNominatim依存を削除</li>
+    <li>寄り道ガチャの目的地選択を「お気に入りのルート」と「Googleマップでリンクを取得」の2系統に整理</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.3.1</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>Google Maps短縮共有リンクが反映できない場合の目的地入力フォールバックを追加</li>
+    <li>「自分で目的地を選ぶ」の表記を分かりやすく改善</li>
+    <li>カフェ・甘味・ごはんの寄り道を登録DB非依存のGoogle Maps検索型へ変更</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.3.0</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「寄り道ガチャ」を独立カテゴリとして再設計</li>
+    <li>自分で決めた目的地、または「お気に入りのルート」から道草ルートを作成可能に改善</li>
+    <li>道草レベルと体験ジャンルを追加し、目的地級の大型施設を軽い寄り道候補から除外</li>
+    <li>お気に入りルートでは経由地順を保ったまま、自然な区間へ寄り道地点を挿入</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.2.2</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>ホームの新10ボタン画像が正しく表示されない不具合を修正</li>
+    <li>ホーム画像データとPWAキャッシュを再構築</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.2.1</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>ホームメニューを2列×5行の10ボタン構成へ刷新</li>
+    <li>新デザインの「寄り道ガチャ」「今日の走り方」「旅の履歴」ボタンを追加</li>
+    <li>寄り道ガチャをホームから案内できるように改善</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.2.0</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「寄り道ガチャ」を追加</li>
+    <li>現在地と目的地を結ぶルート軸周辺から、ジャンル別に寄り道候補を1件提案</li>
+    <li>寄り道時間と車両区分（50cc / 125cc以下 / 250cc以上 / 車）による候補範囲調整に対応</li>
+    <li>選んだ寄り道地点を経由地としてGoogle Mapsへ渡せるように改善</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.1.6</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>更新履歴ページを追加</li>
+    <li>フッターから更新内容を確認できるように改善</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.1.5</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>利用規約・免責事項ページを追加</li>
+    <li>125cc以下の参考ルート、道路規制、外部サービス利用時の注意事項を明記</li>
+    <li>安全走行を最優先とする免責事項を整理</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.1.4</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>プライバシーポリシーを追加</li>
+    <li>位置情報、端末内保存、お問い合わせ情報の取り扱いを明記</li>
+    <li>Google Maps、Stripe、FormSubmit等の外部サービス利用について整理</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.1.3</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>活動支援の表現を「任意の活動支援（チップ）」に統一</li>
+    <li>支援額に応じた返礼品・追加機能・特別サービスがないことを明記</li>
+    <li>特定商取引法に基づく表記の電話番号を請求時開示へ変更</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.1.2</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>特定商取引法に基づく表記ページを追加</li>
+    <li>活動支援に関する支払方法、返金方針、支援用途等を掲載</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.1.1</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>「活動を応援する」機能を追加</li>
+    <li>Stripeによる任意の活動支援ページを追加</li>
+  </ul>
+</div>
+
+<div class="history-entry">
+  <div class="history-head"><span class="history-ver">Ver1.1.0</span><span class="history-date">2026-10-06</span></div>
+  <ul>
+    <li>全国の道の駅説明文を整備</li>
+    <li>道の駅データを全国1,234駅へ更新</li>
+    <li>PWAアイコンを新デザインへ更新</li>
+  </ul>
+</div>
+
+<div class="history-links">
+<a href="terms.html">利用規約・免責事項</a> ｜ 
+<a href="privacy.html">プライバシーポリシー</a> ｜ 
+<a href="legal.html">特定商取引法に基づく表記</a>
+</div>
+<a class="history-back" href="./">← アプリに戻る</a>
+</section>
+</main>
+</body>
+</html>
