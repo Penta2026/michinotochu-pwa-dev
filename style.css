@@ -540,3 +540,11 @@ body.pwa-starting .shell,body.pwa-starting .topbar,body.pwa-starting footer{poin
 .rider-cafe-status.holiday{background:#e7e7e7;color:#444}
 .rider-cafe-status.temporary_closed,.rider-cafe-status.long_closed{background:#efe2ff;color:#60318f}
 .rider-cafe-status.permanently_closed{background:#2f2f2f;color:#fff}
+
+/* Detour candidate list */
+.detour-registered h4 small{font-size:12px;font-weight:800;opacity:.65;margin-left:4px}
+.detour-candidate-list{display:grid;gap:8px;margin:10px 0}
+.detour-candidate-row{width:100%;display:flex;align-items:center;gap:10px;text-align:left;border:1px solid #d8e1e8;background:#fff;border-radius:12px;padding:9px 11px;color:inherit;cursor:pointer}
+.detour-candidate-row:hover{background:#f7fbff}
+.detour-candidate-row .icon-badge{flex:0 0 auto;margin:0}
+.detour-candidate-row>span{font-weight:800;line-height:1.35}
