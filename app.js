@@ -1,6 +1,6 @@
 'use strict';
 const D=window.APP_DATA||{roads:[],landmarks:[],meta:{}};
-const APP_VERSION='PWA 1.5.16-dev2';
+const APP_VERSION='PWA 1.5.16-dev3';
 const JR=(window.JR_STATIONS||[]).map(x=>({...x,prefecture:'',municipality:''}));
 const RELAY=window.RELAY_STOPS||[];
 const RIDERS_CAFES=window.RIDERS_CAFES||[];
@@ -956,8 +956,8 @@ function commitInterestSave(){
   saveSingle('気になる場所',x.name,x.lat,x.lng,x.kind,o.label,o.lat,o.lng);
   pendingInterestSave=null;origins.interestSave=null;closeModal();
 }
-function fillSelectors(){const prefs=sortPrefectures(new Set([...D.roads,...D.landmarks].map(x=>x.prefecture).filter(Boolean)));for(const id of ['interestPref','browsePref'])$(id).innerHTML=prefs.map(p=>`<option>${esc(p)}</option>`).join('');for(const id of ['interestFeature','browseFeature'])$(id).innerHTML=FEATURES.map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}
-function runInterest(){const p=$('interestPref').value,t=$('interestType').value,f=$('interestFeature').value;let pool=[];if((t==='all'||t==='road')&&!f)pool.push(...D.roads.filter(x=>x.prefecture===p).map(x=>({...x,kind:'道の駅'})));if(t==='all'||t==='A')pool.push(...D.landmarks.filter(x=>x.prefecture===p&&x.level==='A'&&featureMatch(x,f)).map(x=>({...x,kind:'定番スポット'})));if(t==='all'||t==='B')pool.push(...D.landmarks.filter(x=>x.prefecture===p&&x.level==='B'&&featureMatch(x,f)).map(x=>({...x,kind:'寄り道スポット'})));pool.sort((a,b)=>a.name.localeCompare(b.name,'ja'));$('interestResult').innerHTML=`<div class="panel full">${esc(p)} / ${pool.length}件</div>`+pool.map(x=>spotCard(x,x.kind,null,false,`beginInterestSave('${escJs(x.name)}',${x.lat},${x.lng},'${escJs(x.kind)}')`,0,null,`showInterestDetailById('${escJs(x.id)}','${escJs(x.kind)}')`)).join('')}
+function fillSelectors(){const prefs=sortPrefectures(new Set([...D.roads,...D.landmarks,...RIDERS_CAFES].map(x=>x.prefecture).filter(Boolean)));for(const id of ['interestPref','browsePref'])$(id).innerHTML=prefs.map(p=>`<option>${esc(p)}</option>`).join('');for(const id of ['interestFeature','browseFeature'])$(id).innerHTML=FEATURES.map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}
+function runInterest(){const p=$('interestPref').value,t=$('interestType').value,f=$('interestFeature').value;let pool=[];if((t==='all'||t==='road')&&!f)pool.push(...D.roads.filter(x=>x.prefecture===p).map(x=>({...x,kind:'道の駅'})));if(t==='all'||t==='A')pool.push(...D.landmarks.filter(x=>x.prefecture===p&&x.level==='A'&&featureMatch(x,f)).map(x=>({...x,kind:'定番スポット'})));if(t==='all'||t==='B')pool.push(...D.landmarks.filter(x=>x.prefecture===p&&x.level==='B'&&featureMatch(x,f)).map(x=>({...x,kind:'寄り道スポット'})));if(t==='cafe')pool.push(...RIDERS_CAFES.filter(x=>x.prefecture===p&&(x.publish!==false||x.testOnly)).map(x=>({...x,kind:'ライダーズカフェ'})));pool.sort((a,b)=>a.name.localeCompare(b.name,'ja'));$('interestResult').innerHTML=`<div class="panel full">${esc(p)} / ${pool.length}件</div>`+pool.map(x=>spotCard(x,x.kind,null,false,`beginInterestSave('${escJs(x.name)}',${x.lat},${x.lng},'${escJs(x.kind)}')`,0,null,`showInterestDetailById('${escJs(x.id)}','${escJs(x.kind)}')`)).join('')}
 function uiCategoryTags(x){
   const tags=new Set(),fc=x.featureCategory||'',text=`${x.name||''} ${x.featureLabel||''}`;
   const add=(tag,re)=>{if(re.test(text))tags.add(tag)};
@@ -996,8 +996,8 @@ function spotMeta(x,kind,d){
   return parts.join(' / ');
 }
 function spotCard(x,kind,d,selectable=false,saveAction=null,index=0,routeOrigin=null,detailAction=null){const navActions=routeOrigin?routeButtons(routeOrigin,[x]):mapBtn(x);const tripActions=routeOrigin?'':tripSpotActions(x,kind);return `<div class="spot-card"><div class="spot-main${detailAction?' detail-clickable':''}"${detailAction?` onclick="${detailAction}" role="button" tabindex="0"`:''}>${selectable?`<input class="spot-select near-check" type="checkbox" data-i="${index}">`:''}${iconBadge(x,kind)}<div class="spot-info"><h3>${esc(x.name)}</h3><div class="meta">${esc(spotMeta(x,kind,d))}</div>${ridersCafeExtra(x)}${x.summary?`<div class="meta">${esc(x.summary)}</div>`:''}</div></div><div class="actions">${navActions}${saveAction?`<button class="soft" onclick="${saveAction}">保存</button>`:''}${tripActions}</div></div>`}
-function interestItemById(id,kind){const src=kind==='道の駅'?D.roads:D.landmarks;const x=src.find(v=>String(v.id)===String(id));return x?{...x,kind}:null}
-function showInterestDetailById(id,kind){const x=interestItemById(id,kind);if(!x)return;const details=[];if(x.summary)details.push(`<p>${esc(x.summary)}</p>`);if(x.access)details.push(`<div class="detail-block"><b>🚗 アクセス</b><div>${esc(x.access)}</div></div>`);if(x.arrivalPointType)details.push(`<div class="detail-block"><b>📍 到着目安</b><div>${esc(x.arrivalPointType)}</div></div>`);modal(`<h2 class="detail-title">${esc(x.name)}</h2><div class="meta detail-meta">${esc(spotMeta(x,kind,null))}</div>${details.join('')||'<p class="meta">この地点の追加説明は登録されていません。</p>'}<div class="route-buttons detail-route">${mapBtn(x,'Googleマップで確認')}</div><div class="actions trip-detail-actions">${tripSpotActions(x,kind)}</div>`)}
+function interestItemById(id,kind){const src=kind==='道の駅'?D.roads:(kind==='ライダーズカフェ'?RIDERS_CAFES:D.landmarks);const x=src.find(v=>String(v.id)===String(id));return x?{...x,kind}:null}
+function showInterestDetailById(id,kind){const x=interestItemById(id,kind);if(!x)return;const details=[];if(x.summary)details.push(`<p>${esc(x.summary)}</p>`);if(kind==='ライダーズカフェ'){const sig=ridersCafeSignal(x);details.push(`<div class="detail-block"><b>営業状態</b><div>${esc(sig.label)}</div></div>`);if(x.foodTypes?.length)details.push(`<div class="detail-block"><b>🍽 食事</b><div>${esc(x.foodTypes.join(' / '))}</div></div>`);if(x.regularHolidays?.length)details.push(`<div class="detail-block"><b>休業日</b><div>${esc(x.regularHolidays.join('・'))}</div></div>`);if(x.address)details.push(`<div class="detail-block"><b>📍 住所</b><div>${esc(x.address)}</div></div>`);if(x.permission?.label)details.push(`<div class="detail-block"><b>掲載許諾</b><div>${esc(x.permission.label)}${x.testOnly?'（DEV仮登録）':''}</div></div>`);}if(x.access)details.push(`<div class="detail-block"><b>🚗 アクセス</b><div>${esc(x.access)}</div></div>`);if(x.arrivalPointType)details.push(`<div class="detail-block"><b>📍 到着目安</b><div>${esc(x.arrivalPointType)}</div></div>`);modal(`<h2 class="detail-title">${esc(x.name)}</h2><div class="meta detail-meta">${esc(spotMeta(x,kind,null))}</div>${details.join('')||'<p class="meta">この地点の追加説明は登録されていません。</p>'}<div class="route-buttons detail-route">${mapBtn(x,'Googleマップで確認')}</div><div class="actions trip-detail-actions">${tripSpotActions(x,kind)}</div>`)}
 
 
 const TRIP_HISTORY_KEY='michinotochu_trip_history_v1';
@@ -1012,15 +1012,15 @@ function loadTripStore(){
 }
 function saveTripStore(store){localStorage.setItem(TRIP_HISTORY_KEY,JSON.stringify(store))}
 function tripRegisteredKey(x,kind){
-  const prefix=kind==='道の駅'?'road':'spot';
+  const prefix=kind==='道の駅'?'road':(kind==='ライダーズカフェ'?'cafe':'spot');
   const id=(x&&x.id!==undefined&&x.id!==null&&String(x.id)!=='')?String(x.id):'';
   if(id)return prefix+':id:'+id;
   return prefix+':geo:'+Number(x.lat).toFixed(6)+','+Number(x.lng).toFixed(6);
 }
 function findRegisteredSpotByTripKey(key){
-  const isRoad=String(key).startsWith('road:');
-  const src=isRoad?D.roads:D.landmarks;
-  const body=String(key).replace(/^(road|spot):/,'');
+  const isRoad=String(key).startsWith('road:'),isCafe=String(key).startsWith('cafe:');
+  const src=isRoad?D.roads:(isCafe?RIDERS_CAFES:D.landmarks);
+  const body=String(key).replace(/^(road|spot|cafe):/,'');
   let x=null;
   if(body.startsWith('id:')){
     const id=body.slice(3);
@@ -1030,7 +1030,7 @@ function findRegisteredSpotByTripKey(key){
     x=src.find(v=>Math.abs((+v.lat)-la)<1e-5&&Math.abs((+v.lng)-ln)<1e-5)||null;
   }
   if(!x)return null;
-  return{...x,kind:isRoad?'道の駅':pointKind(x)};
+  return{...x,kind:isRoad?'道の駅':(isCafe?'ライダーズカフェ':pointKind(x))};
 }
 function makeRegisteredTripRecord(key){
   const x=findRegisteredSpotByTripKey(key); if(!x)return null;
