@@ -1,6 +1,6 @@
 'use strict';
 const D=window.APP_DATA||{roads:[],landmarks:[],meta:{}};
-const APP_VERSION='PWA 1.5.16-dev4';
+const APP_VERSION='PWA 1.5.16-dev5';
 const JR=(window.JR_STATIONS||[]).map(x=>({...x,prefecture:'',municipality:''}));
 const RELAY=window.RELAY_STOPS||[];
 const RIDERS_CAFES=window.RIDERS_CAFES||[];
@@ -600,6 +600,7 @@ function runDetourGacha(){
   const routeNodes=[route.origin,...route.points];
   const all=detourAllSpots();
 
+  // Contextual pool: used for the "道草" suggestion under the selected radius/level.
   const pool=all.map(x=>{
     const d=dist(base.lat,base.lng,x.lat,x.lng);
     return {...x,_detourDistance:d};
@@ -612,27 +613,35 @@ function runDetourGacha(){
     return true;
   });
 
+  // Registered candidates: show ALL app-registered places matching the selected genre.
+  // Radius / detour level do not hide registered places; distance is shown in detail instead.
+  const registeredPool=all.map(x=>({
+    ...x,
+    _detourDistance:dist(base.lat,base.lng,x.lat,x.lng)
+  })).filter(x=>detourGenreMatch(x,genre));
+
   const host=$('detourResult');
   if(!host)return;
 
   pool.sort((a,b)=>a._detourDistance-b._detourDistance||a.name.localeCompare(b.name,'ja'));
-  window._detourRegisteredPool=pool;
+  registeredPool.sort((a,b)=>a._detourDistance-b._detourDistance||a.name.localeCompare(b.name,'ja'));
+  window._detourRegisteredPool=registeredPool;
   const pick=pool[0]||null;
   const destination=route.points[route.points.length-1];
   const mapUrl=detourFoodSearchUrl(route,genre,base,radius);
   const mapLabel=genre==='random'?'Google Mapsでこの辺を探す':'Google Mapsで'+detourMapSearchWord(genre)+'を探す';
 
   let registeredHtml='';
-  if(pool.length){
+  if(registeredPool.length){
     registeredHtml=`<div class="detour-registered">
-      <h4>📚 アプリ登録候補 <small>${pool.length}件</small></h4>
-      <div class="detour-candidate-list">${pool.map((x,i)=>`<button type="button" class="detour-candidate-row" onclick="openDetourRegisteredDetail(${i},'${escJs(genre)}','${escJs(anchor)}')">${iconBadge(x,x.kind)}<span>${esc(x.name)}</span></button>`).join('')}</div>
-      <p class="meta">候補をタップすると詳細と「この登録候補に寄って走る」を表示します。</p>
+      <h4>📚 アプリ登録候補 <small>${registeredPool.length}件</small></h4>
+      <div class="detour-candidate-list">${registeredPool.map((x,i)=>`<button type="button" class="detour-candidate-row" onclick="openDetourRegisteredDetail(${i},'${escJs(genre)}','${escJs(anchor)}')">${iconBadge(x,x.kind)}<span>${esc(x.name)}</span></button>`).join('')}</div>
+      <p class="meta">選んだジャンルの登録地をすべて表示しています。タップすると詳細と「この登録候補に寄って走る」を表示します。</p>
     </div>`;
   }else{
     registeredHtml=`<div class="detour-registered detour-registered-empty">
       <h4>📚 アプリ登録候補</h4>
-      <p class="meta">${esc(detourAnchorLabel(anchor))}から${radius}km以内には、このジャンルの登録候補がありません。</p>
+      <p class="meta">このジャンルには、まだアプリ登録候補がありません。</p>
     </div>`;
   }
 
