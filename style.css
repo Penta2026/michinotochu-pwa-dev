@@ -526,3 +526,8 @@ body.pwa-starting .shell,body.pwa-starting .topbar,body.pwa-starting footer{poin
   .ride-mood-change-button span{align-self:flex-start}
   .ride-mood-change-grid{grid-template-columns:1fr}
 }
+
+/* DEV environment marker */
+.topbar{position:relative}
+.dev-banner{position:absolute;right:18px;top:10px;z-index:20;background:#fff3a8;color:#5b4800;border:2px solid #e3b600;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:900;letter-spacing:.03em;box-shadow:0 2px 8px #0002}
+@media(max-width:760px){.topbar{padding-top:46px}.dev-banner{left:50%;right:auto;transform:translateX(-50%);top:8px;white-space:nowrap}}
