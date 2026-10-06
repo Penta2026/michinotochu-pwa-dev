@@ -1,11 +1,11 @@
-const PWA_APP_VERSION='1.5.15';
+const PWA_APP_VERSION='1.5.16-dev1';
 const PWA_DEFAULT_DB_VERSION='2.8.20';
 const PWA_NETWORK_TIMEOUT_MS=5000;
 let pwaUpdateRunning=false;
 let pwaStartupComplete=false;
 
 function pwaStoredDbVersion(){
-  return localStorage.getItem('michino_db_version')||PWA_DEFAULT_DB_VERSION;
+  return localStorage.getItem('michino_dev_db_version')||PWA_DEFAULT_DB_VERSION;
 }
 function setPwaStatus(text,hasUpdate=false){
   const s=document.getElementById('pwaDbStatus');
@@ -59,9 +59,9 @@ async function updateDbIfNeeded(v,isStartup=false){
   if(!r.ok)throw new Error('data');
   const text=await r.text();
   if(!text.includes('window.APP_DATA=')||text.length<1000)throw new Error('invalid data');
-  const cache=await caches.open('michino-db');
+  const cache=await caches.open('michino-dev-db');
   await cache.put('data/app_data.js',new Response(text,{headers:{'Content-Type':'application/javascript; charset=utf-8'}}));
-  localStorage.setItem('michino_db_version',v.dbVersion);
+  localStorage.setItem('michino_dev_db_version',v.dbVersion);
   return true;
 }
 function versionDifferent(latest,current){
