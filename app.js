@@ -1,6 +1,6 @@
 'use strict';
 const D=window.APP_DATA||{roads:[],landmarks:[],meta:{}};
-const APP_VERSION='PWA 1.5.16-dev6';
+const APP_VERSION='PWA 1.5.16-dev7';
 const JR=(window.JR_STATIONS||[]).map(x=>({...x,prefecture:'',municipality:''}));
 const RELAY=window.RELAY_STOPS||[];
 const RIDERS_CAFES=window.RIDERS_CAFES||[];
@@ -614,13 +614,12 @@ function runDetourGacha(){
   });
 
   // Registered candidates:
-  // - specific genre: show all registered places in that genre
-  // - random: show all registered places across every genre
-  // Radius / detour level do not hide registered places; distance is shown in detail instead.
+  // - specific genre: show all registered places in that genre within the selected radius
+  // - random: show all registered places across every genre within the selected radius
   const registeredPool=all.map(x=>({
     ...x,
     _detourDistance:dist(base.lat,base.lng,x.lat,x.lng)
-  })).filter(x=>genre==='random'||detourGenreMatch(x,genre));
+  })).filter(x=>x._detourDistance<=radius&&(genre==='random'||detourGenreMatch(x,genre)));
 
   const host=$('detourResult');
   if(!host)return;
@@ -638,7 +637,7 @@ function runDetourGacha(){
     registeredHtml=`<div class="detour-registered">
       <h4>📚 アプリ登録候補 <small>${registeredPool.length}件</small></h4>
       <div class="detour-candidate-list">${registeredPool.map((x,i)=>`<button type="button" class="detour-candidate-row" onclick="openDetourRegisteredDetail(${i},'${escJs(genre)}','${escJs(anchor)}')">${iconBadge(x,x.kind)}<span>${esc(x.name)}</span></button>`).join('')}</div>
-      <p class="meta">${genre==='random'?'おまかせなので、全ジャンルの登録地を表示しています。':'選んだジャンルの登録地をすべて表示しています。'} タップすると詳細と「この登録候補に寄って走る」を表示します。</p>
+      <p class="meta">${genre==='random'?'おまかせなので、指定半径内の全ジャンル登録地を表示しています。':'指定半径内にある、選んだジャンルの登録地をすべて表示しています。'} タップすると詳細と「この登録候補に寄って走る」を表示します。</p>
     </div>`;
   }else{
     registeredHtml=`<div class="detour-registered detour-registered-empty">
