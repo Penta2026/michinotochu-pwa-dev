@@ -1,6 +1,6 @@
 'use strict';
 const D=window.APP_DATA||{roads:[],landmarks:[],meta:{}};
-const APP_VERSION='PWA 1.5.16-dev11';
+const APP_VERSION='PWA 1.5.16-dev12';
 const JR=(window.JR_STATIONS||[]).map(x=>({...x,prefecture:'',municipality:''}));
 const RELAY=window.RELAY_STOPS||[];
 const RIDERS_CAFES=window.RIDERS_CAFES||[];
@@ -557,6 +557,45 @@ function loadDetourFromContext(id){
 function openDetour(id){
   loadDetourFromContext(id);
 }
+function detourRouteProgress(route,p){
+  const nodes=[route.origin,...route.points];
+  let best={score:Infinity,progress:0};
+  let acc=0,total=0;
+  const lens=[];
+  for(let i=0;i<nodes.length-1;i++){const len=dist(nodes[i].lat,nodes[i].lng,nodes[i+1].lat,nodes[i+1].lng);lens.push(len);total+=len}
+  for(let i=0;i<nodes.length-1;i++){
+    const m=detourSegmentMetric(nodes[i],nodes[i+1],p);
+    const clamped=Math.max(0,Math.min(1,m.t));
+    const progress=total?((acc+lens[i]*clamped)/total):0;
+    const score=m.perp+(m.t<0||m.t>1?20:0);
+    if(score<best.score)best={score,progress};
+    acc+=lens[i];
+  }
+  return best.progress;
+}
+function detourPickMultiple(route,pool,count){
+  if(!pool.length)return[];
+  const ranked=pool.map(x=>({...x,_routeProgress:detourRouteProgress(route,x)}));
+  ranked.sort((a,b)=>a._routeProgress-b._routeProgress||a._detourDistance-b._detourDistance);
+  if(count<=1)return [ranked[Math.floor(Math.random()*Math.min(8,ranked.length))]];
+  const chosen=[];
+  const buckets=count;
+  for(let i=0;i<buckets;i++){
+    const lo=i/buckets,hi=(i+1)/buckets;
+    let bucket=ranked.filter(x=>x._routeProgress>=lo&&x._routeProgress<=(i===buckets-1?1:hi));
+    if(!bucket.length)bucket=ranked.filter(x=>!chosen.some(c=>c.id===x.id||(+c.lat===+x.lat&&+c.lng===+x.lng)));
+    if(!bucket.length)break;
+    const near=bucket.slice(0,Math.min(10,bucket.length));
+    const pick=near[Math.floor(Math.random()*near.length)];
+    if(!chosen.some(c=>c.id===pick.id||(+c.lat===+pick.lat&&+c.lng===+pick.lng)))chosen.push(pick);
+  }
+  return chosen.sort((a,b)=>a._routeProgress-b._routeProgress);
+}
+function detourInsertedMultiple(route,picks){
+  const pts=route.points.map(p=>({...p}));
+  return [...picks.map(p=>({...p})),...pts];
+}
+
 function detourInsertedPointsByAnchor(route,pick,anchor){
   const pts=route.points.map(p=>({...p}));
   const insertIndex=anchor==='destination'?Math.max(0,pts.length-1):0;
@@ -594,6 +633,7 @@ function runDetourGacha(){
   const genre=$('detourGenre')?.value||'random';
   const level=$('detourLevel')?.value||'rest';
   const anchor=$('detourAnchor')?.value||'start';
+  const count=Math.max(1,Math.min(3,+( $('detourCount')?.value||1 )));
   const radius=numericValue('detourRadius','detourRadiusFree',1,200);
   const spec=detourLevelSpec(level);
   const route=detourRoute;
@@ -626,13 +666,23 @@ function runDetourGacha(){
   if(!host)return;
 
   pool.sort((a,b)=>a._detourDistance-b._detourDistance||a.name.localeCompare(b.name,'ja'));
+  const picks=detourPickMultiple(route,pool,count);
   registeredPool.sort((a,b)=>a._detourDistance-b._detourDistance||a.name.localeCompare(b.name,'ja'));
   window._detourRegisteredPool=registeredPool;
-  const pick=pool[0]||null;
+  const pick=picks[0]||null;
   const destination=route.points[route.points.length-1];
   const mapUrl=detourFoodSearchUrl(route,genre,base,radius);
   const mapLabel=genre==='random'?'Google Mapsでこの辺を探す':'Google Mapsで'+detourMapSearchWord(genre)+'を探す';
 
+  let pickedRouteHtml='';
+  if(picks.length){
+    const inserted=detourInsertedMultiple(route,picks);
+    pickedRouteHtml=`<div class="detour-picked-route">
+      <h4>🌿 今回の寄り道 ${picks.length}件</h4>
+      <div class="detour-picked-route-list">${picks.map((x,i)=>`<div class="route-line"><b>${i+1}. ${esc(x.name)}</b><div class="meta">進行順 / ${esc(detourAnchorLabel(anchor))}から約 ${x._detourDistance.toFixed(1)}km</div></div>`).join('')}</div>
+      <div class="detour-actions"><a class="mapbtn primary" href="${googleRoute(route.origin,inserted,'250')}" target="_blank" rel="noopener">🏍️ この順番で寄って走る</a></div>
+    </div>`;
+  }
   let registeredHtml='';
   if(registeredPool.length){
     registeredHtml=`<div class="detour-registered">
@@ -649,7 +699,7 @@ function runDetourGacha(){
 
   host.className='result';
   host.innerHTML=`<div class="detour-picked">
-    <div class="detour-mission-title">${pick?esc(detourExperienceTitle(pick,genre)):'🎲 この辺で道草'}</div>
+    <div class="detour-mission-title">${pick?(picks.length>1?'🌿 寄り道を'+picks.length+'件つなぐ':esc(detourExperienceTitle(pick,genre))):'🎲 この辺で道草'}</div>
     <div class="detour-stats">
       <span>${esc(spec.label)}</span>
       <span>${esc(detourAnchorLabel(anchor))} 基準</span>
@@ -659,6 +709,7 @@ function runDetourGacha(){
       <a class="mapbtn primary" href="${mapUrl}" target="_blank" rel="noopener">🗺 ${esc(mapLabel)}</a>
       <p class="meta">Google Mapsでは、選んだ基準地点を中心に検索します。指定kmは地図表示範囲の目安です。</p>
     </div>
+    ${pickedRouteHtml}
     ${registeredHtml}
     <p class="meta">最終目的地「${esc(destination.name||'目的地')}」はそのまま。</p>
     <div class="detour-actions">
