@@ -23,7 +23,7 @@ jobs:
           cache: npm
 
       - name: Install build dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Build public package
         run: npm run build
