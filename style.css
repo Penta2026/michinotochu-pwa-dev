@@ -564,7 +564,8 @@ body.pwa-starting .shell,body.pwa-starting .topbar,body.pwa-starting footer{poin
 .detour-selection-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0 10px}
 .detour-selection-bar span{font-weight:800;color:#274e69}
 .detour-selection-bar button{margin-left:auto}
-.detour-candidate-select{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center}
+.detour-candidate-select{display:grid;grid-template-columns:auto auto 1fr;gap:8px;align-items:center}
+.detour-order-badge{min-width:24px;font-weight:900;color:#274e69;text-align:center}
 .detour-candidate-check{width:20px;height:20px;accent-color:currentColor}
 .detour-candidate-row small{margin-left:auto;font-weight:700;color:#667883}
 @media(max-width:620px){
