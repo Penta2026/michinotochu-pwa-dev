@@ -556,3 +556,5 @@ body.pwa-starting .shell,body.pwa-starting .topbar,body.pwa-starting footer{poin
 .rider-official-notice{font-size:13px;line-height:1.6;font-weight:700;margin-bottom:10px}
 .rider-official-actions{display:flex;flex-wrap:wrap;gap:8px}
 .rider-official-link{display:inline-flex;align-items:center;justify-content:center}
+
+.rider-cafe-holiday-note{margin-top:2px;line-height:1.45;font-weight:700}
