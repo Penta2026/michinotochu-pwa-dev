@@ -548,3 +548,6 @@ body.pwa-starting .shell,body.pwa-starting .topbar,body.pwa-starting footer{poin
 .detour-candidate-row:hover{background:#f7fbff}
 .detour-candidate-row .icon-badge{flex:0 0 auto;margin:0}
 .detour-candidate-row>span{font-weight:800;line-height:1.35}
+
+.usage-purpose{margin:6px 0 14px;line-height:1.7}
+.usage-riders-cafe{margin-top:14px}
