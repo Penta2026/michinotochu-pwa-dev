@@ -8,21 +8,21 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="道の途中。DEV">
-<link rel="manifest" href="manifest.webmanifest?v=1.5.16-dev24">
-<link rel="apple-touch-icon" href="icons/icon-192.png?v=1.5.16-dev24">
-<link rel="stylesheet" href="style.css?v=1.5.16-dev24">
+<link rel="manifest" href="manifest.webmanifest?v=1.5.16-dev25">
+<link rel="apple-touch-icon" href="icons/icon-192.png?v=1.5.16-dev25">
+<link rel="stylesheet" href="style.css?v=1.5.16-dev25">
 <script src="data/app_data.js"></script>
-<script src="data/road_summaries_chugoku.js?v=1.5.16-dev24"></script>
-<script src="data/road_summaries_shikoku.js?v=1.5.16-dev24"></script>
-<script src="data/road_summaries_kyushu_okinawa.js?v=1.5.16-dev24"></script>
-<script src="data/road_summaries_kinki.js?v=1.5.16-dev24"></script>
-<script src="data/road_summaries_chubu.js?v=1.5.16-dev24"></script>
-<script src="data/road_summaries_kanto.js?v=1.5.16-dev24"></script>
-<script src="data/road_summaries_tohoku.js?v=1.5.16-dev24"></script>
-<script src="data/road_summaries_hokkaido.js?v=1.5.16-dev24"></script>
-<script src="data/road_summaries_final.js?v=1.5.16-dev24"></script>
-<script src="data/spot_overrides.js?v=1.5.16-dev24"></script>
-<script src="data/riders_cafes.js?v=1.5.16-dev24"></script>
+<script src="data/road_summaries_chugoku.js?v=1.5.16-dev25"></script>
+<script src="data/road_summaries_shikoku.js?v=1.5.16-dev25"></script>
+<script src="data/road_summaries_kyushu_okinawa.js?v=1.5.16-dev25"></script>
+<script src="data/road_summaries_kinki.js?v=1.5.16-dev25"></script>
+<script src="data/road_summaries_chubu.js?v=1.5.16-dev25"></script>
+<script src="data/road_summaries_kanto.js?v=1.5.16-dev25"></script>
+<script src="data/road_summaries_tohoku.js?v=1.5.16-dev25"></script>
+<script src="data/road_summaries_hokkaido.js?v=1.5.16-dev25"></script>
+<script src="data/road_summaries_final.js?v=1.5.16-dev25"></script>
+<script src="data/spot_overrides.js?v=1.5.16-dev25"></script>
+<script src="data/riders_cafes.js?v=1.5.16-dev25"></script>
 </head>
 <body class="pwa-starting">
 <div id="pwaStartupGate" class="pwa-startup-gate" role="status" aria-live="polite">
@@ -34,7 +34,7 @@
 </div>
 <header class="topbar">
   <div class="dev-banner">🧪 DEV / 開発確認版</div>
-  <div class="brand"><h1>道の途中。 <span>PWA</span> <small class="version-tag">Ver1.5.16-dev24</small></h1><p>気の向くままに、どこかへ行こう。寄り道が、最高の目的地になる。</p></div>
+  <div class="brand"><h1>道の途中。 <span>PWA</span> <small class="version-tag">Ver1.5.16-dev25</small></h1><p>気の向くままに、どこかへ行こう。寄り道が、最高の目的地になる。</p></div>
 </header>
 <div class="shell">
 <nav class="side" id="sideNav">
@@ -56,7 +56,7 @@
   <div class="home-stage">
     <div class="home-title" aria-label="旅の途中。"><span class="home-title-trip">旅</span><span class="home-title-no">の</span><span class="home-title-way">途中。</span><span class="home-pin">●</span></div>
     <div class="home-tagline">－ さあ、どこへ行こう？－</div>
-    <div class="home-version">PWA Ver1.5.16-dev24</div>
+    <div class="home-version">PWA Ver1.5.16-dev25</div>
     <button type="button" class="home-usage-button" onclick="openUsageGuide()">？ 使い方</button>
     <div class="home-spacer" aria-hidden="true"></div>
     <div class="home-image-grid">
@@ -111,7 +111,7 @@
 <section id="detour" class="view"><div class="screen-card menu-detour">
   <div class="screen-title-card"><h2>🛣️  寄り道しよう</h2><button class="screen-close" onclick="showView('home')">×</button></div>
   <div class="screen-body">
-    <p class="lead"><b>目的地はそのまま。ちょっと道草。</b><br>道中で寄れそうな候補をまとめて表示し、その中から1〜3件を自分で選べます。</p>
+    <p class="lead"><b>目的地はそのまま。ちょっと道草。</b><br>道中で寄れそうな候補をまとめて表示し、必要なだけ自分で追加できます。</p>
     <div id="detourStart"></div>
 
     <div class="panel detour-destination-panel">
@@ -126,16 +126,6 @@
         <button class="soft reflect-btn start-reflect" type="button" onclick="reflectDetourDestination()">🔗 コピーしたリンクを反映</button>
       </div>
       <div class="note">寄り道しようは目的地を決めません。自分で決めた目的地、または保存したお気に入りルートの“途中”に道草を1〜3件足します。複数選ぶと、スタートから目的地への進行方向に沿って順番を整えます。</div>
-    </div>
-
-    <div class="choice-section">
-      <h3>🔢 寄り道はいくつ？</h3>
-      <select id="detourCount" class="logic-control">
-        <option value="1" selected>1件</option>
-        <option value="2">2件</option>
-        <option value="3">3件</option>
-      </select>
-      <div class="choice-grid" data-target="detourCount" data-values="1,2,3" data-labels="① 1件,② 2件,③ 3件"></div>
     </div>
 
     <div class="choice-section">
@@ -287,7 +277,7 @@
 </main>
 </div>
 <div id="modal" class="modal hidden"><div class="modal-card"><button class="modal-close" onclick="closeModal()">×</button><div id="modalBody"></div></div></div>
-<footer>製作者：ぺんた / © 2026 Penta<br><a href="history.html">更新履歴</a> ｜ <a href="terms.html">利用規約・免責事項</a> ｜ <a href="privacy.html">プライバシーポリシー</a> ｜ <a href="legal.html">特定商取引法に基づく表記</a><br><span id="footerVersion">PWA Ver1.5.16-dev24 / DB Ver2.8.20</span></footer>
+<footer>製作者：ぺんた / © 2026 Penta<br><a href="history.html">更新履歴</a> ｜ <a href="terms.html">利用規約・免責事項</a> ｜ <a href="privacy.html">プライバシーポリシー</a> ｜ <a href="legal.html">特定商取引法に基づく表記</a><br><span id="footerVersion">PWA Ver1.5.16-dev25 / DB Ver2.8.20</span></footer>
 <script>
 (function(){
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
@@ -297,11 +287,11 @@
   }
 })();
 </script>
-<script src="assets/home/home_sprite_0.js?v=1.5.16-dev24"></script>
-<script src="assets/home/home_sprite_1.js?v=1.5.16-dev24"></script>
-<script src="assets/home/home_sprite_2.js?v=1.5.16-dev24"></script>
-<script src="assets/home/home_sprite_3.js?v=1.5.16-dev24"></script>
-<script src="app.js?v=1.5.16-dev24"></script>
-<script src="pwa.js?v=1.5.16-dev24"></script>
+<script src="assets/home/home_sprite_0.js?v=1.5.16-dev25"></script>
+<script src="assets/home/home_sprite_1.js?v=1.5.16-dev25"></script>
+<script src="assets/home/home_sprite_2.js?v=1.5.16-dev25"></script>
+<script src="assets/home/home_sprite_3.js?v=1.5.16-dev25"></script>
+<script src="app.js?v=1.5.16-dev25"></script>
+<script src="pwa.js?v=1.5.16-dev25"></script>
 </body>
 </html>
