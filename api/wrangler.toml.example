@@ -1,0 +1,6 @@
+name = "michinotochu-riders-api"
+main = "riders-cafes-worker.js"
+compatibility_date = "2026-10-07"
+
+# Keep real account-specific settings out of Git when practical.
+# Deploy from this private repository only.
