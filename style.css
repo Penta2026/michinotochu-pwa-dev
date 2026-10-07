@@ -571,3 +571,11 @@ body.pwa-starting .shell,body.pwa-starting .topbar,body.pwa-starting footer{poin
   .detour-selection-bar{align-items:stretch}
   .detour-selection-bar button{width:100%;margin-left:0}
 }
+
+
+/* PWA Ver1.5.16-dev21 external Google Maps detours */
+.detour-copy-add{width:100%;margin-top:8px}
+.detour-external-list{display:grid;gap:8px;margin-top:10px}
+.detour-external-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 11px;border:1px dashed #c9d8e2;border-radius:12px;background:#fff}
+.detour-external-row>div{min-width:0}
+.detour-external-row button{flex:0 0 auto}
