@@ -592,8 +592,19 @@ function detourPickMultiple(route,pool,count){
   return chosen.sort((a,b)=>a._routeProgress-b._routeProgress);
 }
 function detourInsertedMultiple(route,picks){
-  const pts=route.points.map(p=>({...p}));
-  return [...picks.map(p=>({...p})),...pts];
+  const nodes=[route.origin,...route.points];
+  let total=0;
+  const lens=[];
+  for(let i=0;i<nodes.length-1;i++){const len=dist(nodes[i].lat,nodes[i].lng,nodes[i+1].lat,nodes[i+1].lng);lens.push(len);total+=len}
+  let acc=0;
+  const originals=route.points.map((p,i)=>{
+    acc+=lens[i]||0;
+    return {...p,_routeProgress:total?acc/total:1,_originalOrder:i};
+  });
+  const detours=picks.map(p=>({...p,_routeProgress:Number.isFinite(p._routeProgress)?p._routeProgress:detourRouteProgress(route,p),_isDetour:true}));
+  return [...originals,...detours]
+    .sort((a,b)=>a._routeProgress-b._routeProgress||((a._isDetour?0:1)-(b._isDetour?0:1))||(a._originalOrder??0)-(b._originalOrder??0))
+    .map(({_routeProgress,_originalOrder,_isDetour,...p})=>p);
 }
 
 function detourInsertedPointsByAnchor(route,pick,anchor){
