@@ -551,3 +551,8 @@ body.pwa-starting .shell,body.pwa-starting .topbar,body.pwa-starting footer{poin
 
 .usage-purpose{margin:6px 0 14px;line-height:1.7}
 .usage-riders-cafe{margin-top:14px}
+
+.rider-official-box{margin:12px 0;padding:12px;border:1px solid #e2d7b8;border-radius:12px;background:#fffaf0}
+.rider-official-notice{font-size:13px;line-height:1.6;font-weight:700;margin-bottom:10px}
+.rider-official-actions{display:flex;flex-wrap:wrap;gap:8px}
+.rider-official-link{display:inline-flex;align-items:center;justify-content:center}
