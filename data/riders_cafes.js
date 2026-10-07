@@ -33,7 +33,8 @@ window.RIDERS_CAFES = [
       sun: [["11:00","14:30"]]
     },
     regularHolidays: ["木曜日", "金曜日"],
-    irregularHoliday: false,
+    irregularHoliday: true,
+    holidayNotice: "臨時休業・営業時間変更の場合があります。最新情報は公式Instagram等をご確認ください。",
     manualStatus: null,
     manualStatusUntil: null,
     parking: {
