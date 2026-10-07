@@ -27,10 +27,14 @@ async function filter(src) {
 await rm(DIST, { recursive: true, force: true });
 await mkdir(DIST, { recursive: true });
 
-await cp(ROOT, DIST, {
-  recursive: true,
-  filter
-});
+const { readdir } = await import('node:fs/promises');
+for (const name of await readdir(ROOT)) {
+  if (EXCLUDES.has(name)) continue;
+  await cp(join(ROOT, name), join(DIST, name), {
+    recursive: true,
+    filter
+  });
+}
 
 // Public delivery should contain executable output, not readable development source.
 // This is deterrence/size reduction only; browser-delivered JS can never be made secret.
